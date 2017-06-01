@@ -1,19 +1,18 @@
 package com.sinosafe.util;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.SimpleHttpConnectionManager;
-import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.RequestEntity;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.dom4j.DocumentException;
 
 import com.sinosafe.util.http.HttpHelper;
@@ -59,76 +58,64 @@ public class NetUtil {
         }
         return result;
     }
+    
 	public static String httpSend(String url, String textFormat, String xml)
 			throws DocumentException, UnsupportedEncodingException {
 
-		HttpClient client = new HttpClient();
+		//创建HttpClientBuilder  
+        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();  
+        //HttpClient  
+        CloseableHttpClient client = httpClientBuilder.build();
 
-
-        PostMethod postMethod = new PostMethod(url);
-		RequestEntity entity = null;
+        HttpPost  postMethod = new HttpPost(url);
+		HttpEntity entity = null;
 		if (TEXT_FORMAT_PLAIN.equals(textFormat)) {
-			entity = new StringRequestEntity(xml, "text/plain", "UTF-8");
-			postMethod.setRequestEntity(entity);
+			entity = new StringEntity(xml,ContentType.create("text/plain", "UTF-8"));
+			postMethod.setEntity(entity);
 		} else if (TEXT_FORMAT_XML.equals(textFormat)) {
-			entity = new StringRequestEntity(xml, "text/xml", "UTF-8");
-			postMethod.setRequestEntity(entity);
+			entity = new StringEntity(xml, ContentType.create("text/xml", "UTF-8"));
+			postMethod.setEntity(entity);
 		} else if (TEXT_FORMAT_GBK.equals(textFormat)) {
-			entity = new StringRequestEntity(xml, "text/xml", "GBK");
-			postMethod.setRequestEntity(entity);
+			entity = new StringEntity(xml, ContentType.create("text/xml", "GBK"));
+			postMethod.setEntity(entity);
 		} else if (TEXT_FORMAT_JSON.equals(textFormat)) {
-			entity = new StringRequestEntity(xml, "text/json", "UTF-8");
-			postMethod.setRequestEntity(entity);
+			entity = new StringEntity(xml, ContentType.create("text/json", "UTF-8"));
+			postMethod.setEntity(entity);
 		} else {
-			entity = new StringRequestEntity(xml, "text/xml", "UTF-8");
-			postMethod.setRequestEntity(entity);
+			entity = new StringEntity(xml, ContentType.create("text/xml", "UTF-8"));
+			postMethod.setEntity(entity);
 		}
 		String result = null;
-		BufferedReader in = null;
 		try {
 
-			int statusCode = client.executeMethod(postMethod);
-			StringBuffer resultBuffer = new StringBuffer();
+			CloseableHttpResponse response = client.execute(postMethod);
+			int statusCode=response.getStatusLine().getStatusCode();
 			if (statusCode == HttpStatus.SC_OK) {
-				in = new BufferedReader(new InputStreamReader(
-						postMethod.getResponseBodyAsStream(),
-						postMethod.getResponseCharSet()));
-				String inputLine = null;
-				while ((inputLine = in.readLine()) != null) {
-					resultBuffer.append(inputLine);
-				}
-				if (resultBuffer != null) {
-					try {
+				try {
+					HttpEntity resEntity = response.getEntity();  
+	                if (entity != null) {  
 						if (TEXT_FORMAT_GBK.equals(textFormat)) {
-							result = new String(resultBuffer.toString().getBytes(postMethod.getResponseCharSet()),"GBK");
+							result = EntityUtils.toString(resEntity, "GBK");
 						} else {
-							result = new String(resultBuffer.toString().getBytes(postMethod.getResponseCharSet()),"UTF-8");
+							result = EntityUtils.toString(resEntity, "UTF-8");
 						}
-					} catch (UnsupportedEncodingException e) {
-						e.printStackTrace();
-					}
-				}
+	                }
+                }finally {  
+                    response.close();  
+                } 
 			} else {
 				System.out.println("statusCode != HttpStatus.SC_OK--------"+ statusCode);
 			}
-		} catch (HttpException e) {
-			System.out.println("Fatal protocol violation（协议违反）: "+ e.getMessage());
-			e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println("Fatal transport error（传输错误）: " + e.getMessage());
 			e.printStackTrace();
 		} finally {
-			try {
-				if (in != null) {
-					in.close();
-				}
-			} catch (IOException e) {
-				System.out.println("Fatal transport error（数据流关闭）: "+ e.getMessage());
-				e.printStackTrace();
-			}
-			postMethod.releaseConnection();
-			((SimpleHttpConnectionManager) client.getHttpConnectionManager())
-					.shutdown();
+			// 关闭连接,释放资源    
+            try {  
+            	client.close();  
+            } catch (IOException e) {  
+                e.printStackTrace();  
+            }  
 		}
 		return result;
 	}
@@ -143,48 +130,40 @@ public class NetUtil {
 	 */
 	public static String httpSend(String url, byte[] content)
 			throws DocumentException, UnsupportedEncodingException {
-		HttpClient client = new HttpClient();
-        PostMethod postMethod = new PostMethod(url);
-		RequestEntity entity = new InputStreamRequestEntity(new ByteArrayInputStream(content));
-		postMethod.setRequestEntity(entity);
+		//创建HttpClientBuilder  
+        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();  
+        //HttpClient  
+        CloseableHttpClient client = httpClientBuilder.build();
+        
+        HttpPost  postMethod = new HttpPost(url);
+		HttpEntity entity = new ByteArrayEntity(content);
+		postMethod.setEntity(entity);
 		String result = null;
-		BufferedReader in = null;
 		try {
-			int statusCode = client.executeMethod(postMethod);
-			StringBuffer resultBuffer = new StringBuffer();
+			CloseableHttpResponse response  = client.execute(postMethod);
+			int statusCode=response.getStatusLine().getStatusCode();
 			if (statusCode == HttpStatus.SC_OK) {
-				in = new BufferedReader(new InputStreamReader(postMethod.getResponseBodyAsStream(),postMethod.getResponseCharSet()));
-				String inputLine = null;
-				while ((inputLine = in.readLine()) != null) {
-					resultBuffer.append(inputLine);
-				}
-				if (resultBuffer != null) {
-					try {
-						result = new String(resultBuffer.toString().getBytes(postMethod.getResponseCharSet()),"UTF-8");
-					} catch (UnsupportedEncodingException e) {
-						e.printStackTrace();
-					}
-				}
+				try {
+					HttpEntity resEntity = response.getEntity(); 
+	                if (entity != null) {  
+						result = EntityUtils.toString(resEntity, "UTF-8");
+	                }
+                }finally {  
+                    response.close();  
+                } 
 			} else {
 				System.out.println("statusCode != HttpStatus.SC_OK--------"+ statusCode);
 			}
-		} catch (HttpException e) {
-			System.out.println("Fatal protocol violation（协议违反）: "+ e.getMessage());
-			e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println("Fatal transport error（传输错误）: " + e.getMessage());
 			e.printStackTrace();
 		} finally {
-			try {
-				if (in != null) {
-					in.close();
-				}
-			} catch (IOException e) {
-				System.out.println("Fatal transport error（数据流关闭）: "+ e.getMessage());
-				e.printStackTrace();
-			}
-			postMethod.releaseConnection();
-			((SimpleHttpConnectionManager) client.getHttpConnectionManager()).shutdown();
+			// 关闭连接,释放资源    
+            try {  
+            	client.close();  
+            } catch (IOException e) {  
+                e.printStackTrace();  
+            }  
 		}
 		return result;
 	}
