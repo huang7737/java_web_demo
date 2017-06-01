@@ -178,11 +178,11 @@
 			<version>0.9.1.2</version>
 		</dependency>
 
-		<!-- oracle ojdbc.. -->
+		<!-- mysql jdbc.. -->
 		<dependency>
-			<groupId>com.huaan.framework</groupId>
-			<artifactId>oracle11</artifactId>
-			<version>11.2.0.1.0</version>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>5.1.6</version>
 		</dependency>
 
 		<dependency>

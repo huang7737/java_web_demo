@@ -1,4 +1,4 @@
-package com.sinosafe.demo.controller;
+package com.sinosafe.web;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sinosafe.demo.service.CommonApiService;
+import com.sinosafe.service.CommonApiService;
 
 @Controller
 @RequestMapping("/app")
@@ -31,7 +31,7 @@ public class CommonController {
 	public  Map<String, Object> test(HttpServletRequest request,HttpServletResponse response,@RequestParam("name")String name) throws Exception {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			List<Map<String,Object>> data = commonApiService.queryList("625338");
+			List<Map<String,Object>> data = commonApiService.queryList("CHL");
 			resultMap.put("resultCode", "0000");
 			resultMap.put("resultMsg", "成功");
 			resultMap.put("sysCode", sysCode);

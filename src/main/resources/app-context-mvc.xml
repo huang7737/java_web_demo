@@ -7,7 +7,7 @@
 						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	<context:property-placeholder location="classpath:cfg.properties" />
 	<!-- 定义工程中的扫描路径 -->
-	<context:component-scan base-package="com.sinosafe.demo.*" />
+	<context:component-scan base-package="com.sinosafe.web" />
 	<!-- 使用spring mvc的注解方式来配置control/view等 -->
 	<mvc:annotation-driven />
 	<!-- spring mvc dispatchServlet不能处理的请求，使用容器默认的servlet进行处理 -->

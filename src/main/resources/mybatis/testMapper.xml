@@ -5,7 +5,7 @@
 	<!-- 查询收款合计金额 -->
 	<select id="findCardInfo" parameterType="java.lang.String" resultType="map">
 	<![CDATA[
-		select * from mp_bank_card_info t where t.card_bin = #{cardBin,jdbcType=VARCHAR}
+		SELECT * FROM city where countryCode = #{code,jdbcType=VARCHAR}
 	]]>
 	</select>
 	
