@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--佛山路路通业务SQL-->
+<mapper namespace="com.sinosafe.demo" >
+	<!-- 查询收款合计金额 -->
+	<select id="findCardInfo" parameterType="java.lang.String" resultType="map">
+	<![CDATA[
+		select * from mp_bank_card_info t where t.card_bin = #{cardBin,jdbcType=VARCHAR}
+	]]>
+	</select>
+	
+</mapper>
