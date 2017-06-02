@@ -16,7 +16,7 @@
     </bean>  
 
     <!-- 項目自定义的Realm -->  
-    <bean id="simpleShiroRealm" class="com.sinosafe.shiro.SimpleRealm">  
+    <bean id="simpleShiroRealm" class="com.sinosafe.login.shiro.SimpleRealm">  
         <property name="cacheManager" ref="cacheManager" />  
     </bean>  
 

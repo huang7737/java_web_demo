@@ -1,10 +1,7 @@
 package com.sinosafe.login.controller;
 
-import java.security.MessageDigest;
-
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.axis.encoding.Base64;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;

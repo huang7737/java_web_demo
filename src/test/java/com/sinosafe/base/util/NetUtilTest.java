@@ -1,4 +1,4 @@
-package com.sinosafe.util;
+package com.sinosafe.base.util;
 
 import static org.junit.Assert.assertTrue;
 

@@ -12,12 +12,17 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SimpleRealm extends AuthorizingRealm {
 
 	// 这里因为没有调用后台，直接默认只有一个用户
-	private static final String USER_NAME = "root";
-	private static final String PASSWORD = "123456";
+	@Value("${app.userName}")
+	private String userName;
+	@Value("${app.password}")
+	private String password;
 
 	/*
 	 * 授权
@@ -39,9 +44,9 @@ public class SimpleRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken)
 			throws AuthenticationException {
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-		if (token.getUsername().equals(USER_NAME)) {
+		if (token.getUsername().equals(userName)) {
 			//用户名密码可以改成从数据库读取
-			return new SimpleAuthenticationInfo(USER_NAME, PASSWORD, getName());
+			return new SimpleAuthenticationInfo(userName, password, getName());
 		} else {
 			throw new AuthenticationException();
 		}

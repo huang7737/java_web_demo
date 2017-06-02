@@ -43,7 +43,7 @@
 	</bean>
 	
 	<!-- 公共Dao配置 -->
-	<bean id="baseDao" class="com.sinosafe.dao.CommonDaoImpl">
+	<bean id="baseDao" class="com.sinosafe.base.dao.CommonDaoImpl">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
 		<property name="nameSpace" value="com.sinosafe.dao.CommonDao"></property>
 	</bean>
