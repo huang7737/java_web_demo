@@ -22,8 +22,11 @@ public class LoginController {
      */  
     @RequestMapping(value="/login.do",method=RequestMethod.POST)  
     public String checkLogin(HttpServletRequest request,String userName,String password) {  
-        String pswdMd5=null;
 		try {
+			/**
+			 * 密码可以用MD5加密存储，登陆的时候对传过来的密码进行加密后再校验   
+			 * 伪代码：password=md5(password)
+			 */
 			UsernamePasswordToken token = new UsernamePasswordToken(userName,password);  
 	        Subject currentUser = SecurityUtils.getSubject();  
 	        if (!currentUser.isAuthenticated()){
