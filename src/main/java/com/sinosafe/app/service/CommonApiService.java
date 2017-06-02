@@ -1,4 +1,4 @@
-package com.sinosafe.service;
+package com.sinosafe.app.service;
 
 import java.util.List;
 import java.util.Map;

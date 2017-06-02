@@ -1,4 +1,4 @@
-package com.sinosafe.web;
+package com.sinosafe.app.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sinosafe.service.CommonApiService;
+import com.sinosafe.app.service.CommonApiService;
 
 @Controller
 @RequestMapping("/app")
@@ -26,12 +26,12 @@ public class CommonController {
 	@Value("${app.syscode}")
 	private String sysCode;
 	
-	@RequestMapping("/test")
+	@RequestMapping("/queryCity")
 	@ResponseBody
-	public  Map<String, Object> test(HttpServletRequest request,HttpServletResponse response,@RequestParam("name")String name) throws Exception {
+	public  Map<String, Object> test(HttpServletRequest request,HttpServletResponse response,@RequestParam("countryCode")String countryCode) throws Exception {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			List<Map<String,Object>> data = commonApiService.queryList("CHL");
+			List<Map<String,Object>> data = commonApiService.queryList(countryCode);
 			resultMap.put("resultCode", "0000");
 			resultMap.put("resultMsg", "成功");
 			resultMap.put("sysCode", sysCode);

@@ -10,17 +10,24 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	<!-- DataSource数据源配置 -->
 	<!-- 本地数据源DataSource配置 -->
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<property name="driverClass" value="${datasource.driver}"></property>
-		<property name="jdbcUrl" value="${datasource.url}"></property>
-		<property name="user" value="${datasource.username}"></property>
-		<property name="password" value="${datasource.password}"></property>
-		<property name="initialPoolSize" value="${datasource.initialPoolSize}"></property>
-		<property name="maxIdleTime" value="${datasource.maxIdleTime}"></property>
-		<property name="maxPoolSize" value="${datasource.maxPoolSize}"></property>
-		<property name="minPoolSize" value="${datasource.minPoolSize}"></property>
- 		<property name="maxStatements" value="0"/>
-	</bean>
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">  
+		<property name="url" value="${datasource.url}" />  
+		<property name="username" value="${datasource.username}" />  
+		<property name="password" value="${datasource.password}" />  
+		<property name="filters" value="stat" />  
+		<property name="maxActive" value="${datasource.maxPoolSize}" />   
+		<property name="initialSize" value="${datasource.initialPoolSize}" />  
+		<property name="maxWait" value="${datasource.maxPoolSize}" />  
+		<property name="minIdle" value="${datasource.minPoolSize}" />  
+		<property name="timeBetweenEvictionRunsMillis" value="3000" />  
+		<property name="minEvictableIdleTimeMillis" value="300000" />  
+		<property name="validationQuery" value="SELECT 'x'" />  
+		<property name="testWhileIdle" value="true" />  
+		<property name="testOnBorrow" value="false" />  
+		<property name="testOnReturn" value="false" />  
+		<property name="poolPreparedStatements" value="true" />  
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />  
+	</bean> 
 	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<!-- 应用系统将对应的SqlMapper配置到,对应的mybatis-config.xml中就可以。  

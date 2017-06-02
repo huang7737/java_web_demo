@@ -1,4 +1,4 @@
-package com.sinosafe.service;
+package com.sinosafe.app.service;
 
 import java.util.List;
 import java.util.Map;
@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.sinosafe.dao.CommonDao;
+import com.sinosafe.base.dao.CommonDao;
 
 @Service("commonApiServiceImpl")
 public class CommonApiServiceImpl implements CommonApiService {

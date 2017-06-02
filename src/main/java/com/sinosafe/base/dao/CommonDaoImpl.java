@@ -1,6 +1,7 @@
-package com.sinosafe.dao;
+package com.sinosafe.base.dao;
 
 import com.alibaba.fastjson.JSONObject;
+
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;

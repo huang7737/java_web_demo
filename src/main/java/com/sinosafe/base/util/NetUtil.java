@@ -1,4 +1,4 @@
-package com.sinosafe.util;
+package com.sinosafe.base.util;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -196,7 +196,7 @@ public class NetUtil {
 		return entity;
 	}
     
-    private static CloseableHttpClient buildSSLCloseableHttpClient() throws Exception {  
+    private static CloseableHttpClient buildSSLCloseableHttpClient() throws Exception {
         SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null,  
                 new TrustStrategy() {  
                     // 信任所有  
@@ -211,6 +211,5 @@ public class NetUtil {
                 SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);  
         return HttpClients.custom().setSSLSocketFactory(sslsf).build();  
     }
-	
 	
 }

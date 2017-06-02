@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       "> 
+
+    <description>Shiro Configuration</description>  
+
+    <!-- Shiro's main business-tier object for web-enabled applications -->  
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
+        <property name="realm" ref="simpleShiroRealm" />  
+        <property name="cacheManager" ref="cacheManager" />  
+    </bean>  
+
+    <!-- 項目自定义的Realm -->  
+    <bean id="simpleShiroRealm" class="com.sinosafe.shiro.SimpleRealm">  
+        <property name="cacheManager" ref="cacheManager" />  
+    </bean>  
+
+    <!-- Shiro Filter -->  
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">  
+        <property name="securityManager" ref="securityManager" />  
+        <property name="loginUrl" value="/login/login.html" />  
+        <property name="successUrl" value="/admin/index.html" />  
+        <property name="unauthorizedUrl" value="/login/login.html" />  
+        <property name="filterChainDefinitions">  
+            <value>  
+                /login/** = anon  
+                /app/** = anon
+                /** = authc  
+            </value>  
+        </property>  
+    </bean>
+
+    <!-- 用户授权信息Cache -->  
+    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />  
+
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" /> 
+	
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">  
+        <property name="securityManager" ref="securityManager" />  
+    </bean>  
+
+</beans>  

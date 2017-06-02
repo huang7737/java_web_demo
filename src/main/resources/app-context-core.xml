@@ -18,6 +18,9 @@
 	
 	<!-- 引入持久层相关配置 -->
 	<import resource="app-context-persistent.xml" />
+	
+	<!-- shiro -->
+	<import resource="app-context-shiro.xml" />
 
 	<!-- 
 	<import resource="app-context-quartz.xml" />
