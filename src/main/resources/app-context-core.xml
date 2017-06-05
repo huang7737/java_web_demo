@@ -28,9 +28,9 @@
 	<!-- cache -->
 	<import resource="app-context-cache.xml" />
 
-	<!-- 
+	 <!-- quartz 如果不用可以注释掉 -->
 	<import resource="app-context-quartz.xml" />
- 	-->
+ 	
 	<!-- 引入业务层bean相关配置
 	<import resource="app-context-batch.xml" />
 	 -->
