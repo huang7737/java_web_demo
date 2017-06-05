@@ -1,0 +1,9 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="ehcache.xsd">
+    <diskStore path="java.io.tmpdir" />
+    <defaultCache name="defaultCache" maxElementsInMemory="300" timeToIdleSeconds="1800"
+        eternal="false" overflowToDisk="true"/>
+        
+    <cache name="springCache" maxElementsInMemory="300" timeToIdleSeconds="1800"
+        eternal="false" overflowToDisk="true"/>
+</ehcache>

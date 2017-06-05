@@ -10,6 +10,6 @@ public class SimpleJob {
 	private  Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Scheduled(fixedRate=30000)//30秒执行一次
     public void execute(){  
-    	logger.info("job test"); 
+    	logger.info("run job test"); 
     }
 }

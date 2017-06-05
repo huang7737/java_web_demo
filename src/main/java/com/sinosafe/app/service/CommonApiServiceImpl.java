@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.sinosafe.base.dao.CommonDao;
@@ -15,8 +16,9 @@ public class CommonApiServiceImpl implements CommonApiService {
     private CommonDao dao;
 
 	@Override
-	public List<Map<String, Object>> queryList(String cardBin) {
-		return dao.selectList("com.sinosafe.demo.findCardInfo", cardBin);
+	@Cacheable(value="springCache",key="'citylist_' + #countryCode")
+	public List<Map<String, Object>> queryList(String countryCode) {
+		return dao.selectList("com.sinosafe.demo.findCityList", countryCode);
 	}
 	
 }

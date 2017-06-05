@@ -3,7 +3,7 @@
 <!--佛山路路通业务SQL-->
 <mapper namespace="com.sinosafe.demo" >
 	<!-- 查询收款合计金额 -->
-	<select id="findCardInfo" parameterType="java.lang.String" resultType="map">
+	<select id="findCityList" parameterType="java.lang.String" resultType="map">
 	<![CDATA[
 		SELECT * FROM city where countryCode = #{code,jdbcType=VARCHAR}
 	]]>

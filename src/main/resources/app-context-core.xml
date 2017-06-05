@@ -24,6 +24,9 @@
 	
 	<!-- task -->
 	<import resource="app-context-task.xml" />
+	
+	<!-- cache -->
+	<import resource="app-context-cache.xml" />
 
 	<!-- 
 	<import resource="app-context-quartz.xml" />
