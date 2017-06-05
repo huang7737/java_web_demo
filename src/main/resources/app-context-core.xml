@@ -21,6 +21,9 @@
 	
 	<!-- shiro -->
 	<import resource="app-context-shiro.xml" />
+	
+	<!-- task -->
+	<import resource="app-context-task.xml" />
 
 	<!-- 
 	<import resource="app-context-quartz.xml" />
