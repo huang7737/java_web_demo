@@ -16,9 +16,9 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 	
-	<!-- 引入持久层相关配置 -->
+	<!-- 引入持久层相关配置 
 	<import resource="app-context-persistent.xml" />
-	
+	-->
 	<!-- shiro -->
 	<import resource="app-context-shiro.xml" />
 	
@@ -28,9 +28,9 @@
 	<!-- cache -->
 	<import resource="app-context-cache.xml" />
 
-	 <!-- quartz 如果不用可以注释掉 -->
+	 <!-- quartz 如果不用可以注释掉 
 	<import resource="app-context-quartz.xml" />
- 	
+ 	-->
 	<!-- 引入业务层bean相关配置
 	<import resource="app-context-batch.xml" />
 	 -->
