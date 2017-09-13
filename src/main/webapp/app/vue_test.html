@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="no-cache">
+    <title>人才测评系统</title>
+    <!-- Bootstrap -->
+    <link href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.js"></script>
+    <![endif]-->
+</head>
+<body>
+<h2 align="center" style="text-align: center;margin-bottom: 2em;">人才测评系统后台管理</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-3" style="padding-bottom: 1em;">
+            <label for="input_name" style="width: 3.5em;text-align: right">姓名:</label>
+            <input type="text" class="form-control" style="width: 180px;display: inline-block;" id="input_name" v-model="inputs.name" placeholder="姓名">
+        </div>
+        <div class="col-xs-12 col-md-3" style="padding-bottom: 1em;">
+            <label for="input_idcard" style="width: 3.5em;text-align: right">身份证:</label>
+            <input type="text" maxlength="18" class="form-control" style="width: 180px;display: inline-block;" id="input_idcard" v-model="inputs.idcard" placeholder="身份证">
+        </div>
+        <div class="col-xs-12 col-md-3" style="padding-bottom: 1em;">
+            <label for="input_mobile" style="width: 3.5em;text-align: right">手机号:</label>
+            <input type="text" maxlength="11" class="form-control" style="width: 180px;display: inline-block;" id="input_mobile" v-model="inputs.mobile" placeholder="手机号">
+        </div>
+        <div class="col-xs-12 col-md-3" style="padding-bottom: 1em;text-align: center">
+            <button type="button" class="btn btn-primary" id="btn_query" v-on:click="queryApplicantInfo">查询</button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped " id="table_applicant">
+            <thead>
+            <tr>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>身份证</th>
+                <th>手机号</th>
+                <th>邮箱</th>
+                <th>部门</th>
+                <th>岗位</th>
+                <th>答题时间</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="applicantInfo in applicantInfos">
+                <td>{{applicantInfo.name}}</td>
+                <td>{{applicantInfo.sex}}</td>
+                <td>{{applicantInfo.idcard}}</td>
+                <td>{{applicantInfo.mobile}}</td>
+                <td>{{applicantInfo.email}}</td>
+                <td>{{applicantInfo.dept}}</td>
+                <td>{{applicantInfo.groupname}}</td>
+                <td>{{applicantInfo.starttime}}</td>
+                <td>{{applicantInfo.status}}</td>
+                <td>
+                    <a href='#' v-if="applicantInfo.status=='已完成'" class='export' id="{{applicantInfo.id}}" v-on:click="export">导出</a>
+                    <a href='#' class='reset' id="{{applicantInfo.id}}" v-on:click="reset">重置</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+<!-- vue.js -->
+<script src="http://apps.bdimg.com/libs/vue/1.0.14/vue.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+
+
+<script>
+
+    var vm = new Vue({
+        el: '.container',
+        data: {
+            applicantInfos:[],
+            inputs:{}
+        },
+        methods: {
+            queryApplicantInfo: function() {
+                var _self=this;
+                $.post("../../hrTesting/queryApplicant.do",
+                        {
+                            "name": this.inputs.name,
+                            "mobile":this.inputs.mobile,
+                            "idcard":this.inputs.idcard
+                        },
+                        function(result){
+                            if('0000'==result.info.code){
+                                var resList=result["result"];
+                                _self.applicantInfos=resList;
+                            }else{
+                                alert(result.info.msg);
+                            }
+                        }
+                        ,"json");
+            },
+            export:function(event){
+                alert(event.target.id);
+            },
+            reset:function(event){
+                alert("功能未实现,id:"+event.target.id);
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

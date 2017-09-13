@@ -352,5 +352,16 @@
 		  <artifactId>jsoup</artifactId>
 		  <version>1.7.2</version>
 		</dependency>
+		
+		<dependency><groupId>org.apache.poi</groupId>  
+			 <artifactId>poi-ooxml</artifactId>  
+			 <version>3.5-FINAL</version>  
+		</dependency>
+		
+		<dependency>
+            <groupId>org.owasp.antisamy</groupId>
+            <artifactId>antisamy</artifactId>
+            <version>1.5.3</version>
+        </dependency>
 	</dependencies>
 </project>
